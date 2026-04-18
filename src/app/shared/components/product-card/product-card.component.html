@@ -1,0 +1,19 @@
+<div class="product-card" [class.unavailable]="!product.isAvailable">
+  <div class="product-image">
+    <img [src]="getImageUrl()" [alt]="product.name" loading="lazy" />
+    <span class="badge-unavailable" *ngIf="!product.isAvailable">Out of Stock</span>
+    <span class="badge-category" *ngIf="product.categoryName">{{ product.categoryName }}</span>
+  </div>
+  <div class="product-body">
+    <h3 class="product-name">{{ product.name }}</h3>
+    <p class="product-description" *ngIf="product.description">{{ product.description }}</p>
+    <div class="product-footer">
+      <span class="product-price">&#8377;{{ product.price | number: '1.2-2' }}</span>
+      <button class="btn-add-cart"
+              [disabled]="!product.isAvailable"
+              (click)="onAddToCart()">
+        + Add
+      </button>
+    </div>
+  </div>
+</div>

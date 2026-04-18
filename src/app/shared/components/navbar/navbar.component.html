@@ -1,0 +1,29 @@
+
+<nav class="navbar">
+  <div class="navbar-brand">
+    <a routerLink="/">
+      <span class="brand-icon">&#x1F374;</span>
+      <span class="brand-name">RetailFood</span>
+    </a>
+  </div>
+
+  <div class="navbar-links" [class.open]="isMenuOpen">
+    <a routerLink="/products" routerLinkActive="active">Menu</a>
+    <a routerLink="/cart" routerLinkActive="active" *ngIf="authService.isLoggedIn()">Cart</a>
+    <a routerLink="/orders" routerLinkActive="active" *ngIf="authService.isLoggedIn()">Orders</a>
+    <a routerLink="/admin" routerLinkActive="active" *ngIf="authService.isAdmin()">Admin</a>
+  </div>
+
+  <div class="navbar-actions">
+    <ng-container *ngIf="authService.isLoggedIn(); else guestLinks">
+      <span class="user-name">{{ currentUser?.fullName }}</span>
+      <button class="btn-logout" (click)="logout()">Logout</button>
+    </ng-container>
+    <ng-template #guestLinks>
+      <a routerLink="/login" class="btn-login">Login</a>
+      <a routerLink="/register" class="btn-register">Register</a>
+    </ng-template>
+  </div>
+
+  <button class="hamburger" (click)="toggleMenu()">&#9776;</button>
+</nav>

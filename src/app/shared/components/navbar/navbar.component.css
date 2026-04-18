@@ -1,0 +1,91 @@
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  height: 64px;
+  background-color: #1F497D;
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+.navbar-brand a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: #ffffff;
+}
+.brand-icon { font-size: 28px; }
+.brand-name { font-size: 20px; font-weight: 700; letter-spacing: 0.5px; }
+.navbar-links { display: flex; gap: 24px; }
+.navbar-links a {
+  color: rgba(255,255,255,0.85);
+  text-decoration: none;
+  font-size: 15px;
+  padding: 4px 0;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+}
+.navbar-links a:hover,
+.navbar-links a.active {
+  color: #ffffff;
+  border-bottom-color: #f0a500;
+}
+.navbar-actions { display: flex; align-items: center; gap: 12px; }
+.user-name { font-size: 14px; color: rgba(255,255,255,0.9); }
+.btn-logout {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.6);
+  color: #ffffff;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s;
+}
+.btn-logout:hover { background: rgba(255,255,255,0.15); }
+.btn-login, .btn-register {
+  padding: 6px 16px;
+  border-radius: 6px;
+  font-size: 14px;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+.btn-login {
+  color: #ffffff;
+  border: 1px solid rgba(255,255,255,0.6);
+}
+.btn-login:hover { background: rgba(255,255,255,0.15); }
+.btn-register {
+  background: #f0a500;
+  color: #1F497D;
+  font-weight: 600;
+  border: none;
+}
+.btn-register:hover { background: #ffc107; }
+.hamburger {
+  display: none;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 22px;
+  cursor: pointer;
+}
+@media (max-width: 768px) {
+  .hamburger { display: block; }
+  .navbar-links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 64px;
+    left: 0;
+    right: 0;
+    background: #1F497D;
+    padding: 16px 24px;
+    gap: 12px;
+  }
+  .navbar-links.open { display: flex; }
+}
