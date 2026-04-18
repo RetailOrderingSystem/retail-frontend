@@ -1,1 +1,91 @@
-<p>manage-orders works!</p>
+<div class="page-container">
+  <h2 class="page-title">Manage Orders</h2>
+
+  <div *ngIf="actionMessage" class="alert alert-success">{{ actionMessage }}</div>
+  <div *ngIf="errorMessage" class="alert alert-error">{{ errorMessage }}</div>
+  <div *ngIf="loading" class="loader">Loading orders...</div>
+
+  <div *ngIf="!loading" class="table-wrapper">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Order ID</th>
+          <th>Customer</th>
+          <th>Amount</th>
+          <th>Payment</th>
+          <th>Status</th>
+          <th>Date</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let order of orders">
+          <td>#{{ order.orderId }}</td>
+          <td>
+            <div class="customer-info">
+              <span class="customer-name">{{ order.userName }}</span>
+              <span class="customer-email">{{ order.userEmail }}</span>
+            </div>
+          </td>
+          <td>₹{{ order.totalAmount | number:'1.2-2' }}</td>
+          <td>
+            <span class="badge badge-payment" *ngIf="order.paymentMethod">{{ order.paymentMethod }}</span>
+            <span class="badge badge-pay-status" [class.pay-success]="order.paymentStatus === 'Success'"
+              [class.pay-pending]="order.paymentStatus !== 'Success'">
+              {{ order.paymentStatus || 'Unpaid' }}
+            </span>
+          </td>
+          <td>
+            <span class="badge" [ngClass]="getStatusClass(order.status)">{{ order.status }}</span>
+          </td>
+          <td>{{ order.createdAt | date:'dd MMM yyyy' }}</td>
+          <td class="actions">
+            <button class="btn btn-sm btn-info" (click)="viewOrder(order)">View</button>
+            <select class="status-select" [value]="order.status" (change)="updateStatus(order, $any($event.target).value)">
+              <option *ngFor="let s of orderStatuses" [value]="s">{{ s }}</option>
+            </select>
+          </td>
+        </tr>
+        <tr *ngIf="orders.length === 0">
+          <td colspan="7" class="empty-row">No orders found.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Order Detail Modal -->
+<div class="modal-overlay" *ngIf="selectedOrder" (click)="closeModal()">
+  <div class="modal-box" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>Order #{{ selectedOrder.orderId }} — Details</h3>
+      <button class="modal-close" (click)="closeModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <p><strong>Customer:</strong> {{ selectedOrder.userName }} ({{ selectedOrder.userEmail }})</p>
+      <p><strong>Status:</strong> {{ selectedOrder.status }}</p>
+      <p><strong>Payment:</strong> {{ selectedOrder.paymentMethod || '—' }} | {{ selectedOrder.paymentStatus || 'Unpaid' }}</p>
+      <p><strong>Date:</strong> {{ selectedOrder.createdAt | date:'dd MMM yyyy, h:mm a' }}</p>
+
+      <table class="items-table">
+        <thead>
+          <tr><th>Product</th><th>Qty</th><th>Unit Price</th><th>Subtotal</th></tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of selectedOrder.items">
+            <td>{{ item.productName }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>₹{{ item.unitPrice | number:'1.2-2' }}</td>
+            <td>₹{{ item.subtotal | number:'1.2-2' }}</td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td colspan="3" style="text-align:right; font-weight:600;">Total</td>
+            <td style="font-weight:700;">₹{{ selectedOrder.totalAmount | number:'1.2-2' }}</td>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+</div>
