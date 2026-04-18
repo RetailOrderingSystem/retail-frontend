@@ -1,0 +1,38 @@
+.history-page { max-width: 860px; margin: 2rem auto; padding: 0 1rem; font-family: Arial, sans-serif; }
+.history-header h1 { color: #1E3A5F; font-size: 1.8rem; margin-bottom: 1.5rem; }
+.loading-spinner { text-align: center; padding: 3rem; }
+.spinner { width: 48px; height: 48px; border: 5px solid #EBF5FB; border-top-color: #2980B9;
+  border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 1rem; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.empty-state { text-align: center; padding: 4rem 1rem; }
+.empty-icon { font-size: 5rem; margin-bottom: 1rem; }
+.empty-state h2 { color: #1E3A5F; }
+.empty-state p { color: #7F8C8D; margin-bottom: 1.5rem; }
+.btn-shop { background: #2980B9; color: #fff; padding: 0.75rem 2rem; border-radius: 8px;
+  text-decoration: none; font-weight: 600; }
+.order-card { background: #fff; border: 1px solid #D6EAF8; border-radius: 12px;
+  padding: 1.25rem 1.5rem; margin-bottom: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.order-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; }
+.order-id { font-weight: 700; color: #1E3A5F; margin-right: 1rem; }
+.order-date { color: #7F8C8D; font-size: 0.85rem; }
+.status-badge { padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.82rem; font-weight: 600; }
+.status-pending { background: #FDEBD0; color: #E67E22; }
+.status-confirmed { background: #D5F5E3; color: #27AE60; }
+.status-preparing { background: #EBF5FB; color: #2980B9; }
+.status-delivery { background: #F5EEF8; color: #8E44AD; }
+.status-delivered { background: #D5F5E3; color: #27AE60; }
+.status-cancelled { background: #FADBD8; color: #E74C3C; }
+.order-items-preview { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+.item-chip { background: #F2F3F4; color: #5D6D7E; padding: 0.3rem 0.7rem;
+  border-radius: 20px; font-size: 0.82rem; }
+.more-items { color: #7F8C8D; font-size: 0.82rem; align-self: center; }
+.order-card-footer { display: flex; justify-content: space-between; align-items: center; }
+.total-amt { font-weight: 700; font-size: 1.1rem; color: #1E3A5F; }
+.action-btns { display: flex; gap: 0.75rem; }
+.btn-track { background: none; border: 2px solid #2980B9; color: #2980B9;
+  padding: 0.5rem 1rem; border-radius: 8px; text-decoration: none; font-size: 0.88rem; font-weight: 600; }
+.btn-track:hover { background: #EBF5FB; }
+.btn-reorder { background: #27AE60; color: #fff; border: none; padding: 0.5rem 1rem;
+  border-radius: 8px; cursor: pointer; font-size: 0.88rem; font-weight: 600; }
+.btn-reorder:hover:not(:disabled) { background: #1E8449; }
+.btn-reorder:disabled { opacity: 0.5; cursor: not-allowed; }

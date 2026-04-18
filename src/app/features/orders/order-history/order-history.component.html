@@ -1,1 +1,44 @@
-<p>order-history works!</p>
+<div class="history-page">
+  <div class="history-header">
+    <h1>&#128218; My Orders</h1>
+  </div>
+
+  <div *ngIf="loading" class="loading-spinner">
+    <div class="spinner"></div><p>Loading orders...</p>
+  </div>
+
+  <div *ngIf="!loading && orders.length === 0" class="empty-state">
+    <div class="empty-icon">&#128218;</div>
+    <h2>No orders yet</h2>
+    <p>Your order history will appear here once you place an order.</p>
+    <a routerLink="/products" class="btn-shop">Start Shopping</a>
+  </div>
+
+  <div *ngIf="!loading && orders.length > 0" class="orders-list">
+    <div class="order-card" *ngFor="let order of orders">
+      <div class="order-card-header">
+        <div>
+          <span class="order-id">Order #{{ order.orderId }}</span>
+          <span class="order-date">{{ order.createdAt | date:"mediumDate" }}</span>
+        </div>
+        <span class="status-badge" [ngClass]="getStatusClass(order.status)">{{ order.status }}</span>
+      </div>
+      <div class="order-items-preview">
+        <span *ngFor="let item of order.items.slice(0, 3)" class="item-chip">
+          {{ item.productName }} x{{ item.quantity }}
+        </span>
+        <span *ngIf="order.items.length > 3" class="more-items">+{{ order.items.length - 3 }} more</span>
+      </div>
+      <div class="order-card-footer">
+        <span class="total-amt">&#8377;{{ order.totalAmount | number:"1.2-2" }}</span>
+        <div class="action-btns">
+          <a [routerLink]="['/tracking', order.orderId]" class="btn-track">Track Order</a>
+          <button class="btn-reorder" (click)="reorder(order.orderId)"
+                  [disabled]="reorderingId === order.orderId">
+            {{ reorderingId === order.orderId ? "Reordering..." : "&#128257; Reorder" }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
