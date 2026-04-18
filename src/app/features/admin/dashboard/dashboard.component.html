@@ -1,1 +1,50 @@
-<p>dashboard works!</p>
+<div class="dashboard-container">
+  <h2 class="page-title">Admin Dashboard</h2>
+
+  <div *ngIf="loading" class="loader">Loading stats...</div>
+  <div *ngIf="error" class="error-msg">{{ error }}</div>
+
+  <div *ngIf="stats && !loading" class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-icon users-icon">👥</div>
+      <div class="stat-info">
+        <span class="stat-value">{{ stats.totalUsers }}</span>
+        <span class="stat-label">Total Users</span>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon orders-icon">📦</div>
+      <div class="stat-info">
+        <span class="stat-value">{{ stats.totalOrders }}</span>
+        <span class="stat-label">Total Orders</span>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon revenue-icon">💰</div>
+      <div class="stat-info">
+        <span class="stat-value">₹{{ stats.totalRevenue | number:'1.2-2' }}</span>
+        <span class="stat-label">Total Revenue</span>
+      </div>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-icon products-icon">🛒</div>
+      <div class="stat-info">
+        <span class="stat-value">{{ stats.totalProducts }}</span>
+        <span class="stat-label">Total Products</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="quick-links">
+    <h3>Quick Access</h3>
+    <div class="links-grid">
+      <a routerLink="/admin/manage-users" class="quick-link">Manage Users</a>
+      <a routerLink="/admin/manage-orders" class="quick-link">Manage Orders</a>
+      <a routerLink="/admin/manage-products" class="quick-link">Manage Products</a>
+      <a routerLink="/admin/coupons" class="quick-link">Coupons</a>
+    </div>
+  </div>
+</div>
