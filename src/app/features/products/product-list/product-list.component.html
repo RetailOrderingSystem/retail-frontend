@@ -1,1 +1,73 @@
-<p>product-list works!</p>
+<!-- src/app/features/products/product-list/product-list.component.html -->
+<div class="page-wrapper">
+  <div class="page-header">
+    <h1 class="page-title">🍕 Our Menu</h1>
+    <p class="page-subtitle">Fresh, delicious food delivered to your door</p>
+  </div>
+
+  <div class="content-layout">
+    <!-- Filter Sidebar -->
+    <app-filters (filterChanged)="onFilterChanged($event)"></app-filters>
+
+    <!-- Product Grid -->
+    <main class="product-area">
+      <!-- Loading -->
+      <div *ngIf="loading" class="loading-grid">
+        <div *ngFor="let i of [1,2,3,4,5,6]" class="skeleton-card"></div>
+      </div>
+
+      <!-- Error -->
+      <div *ngIf="error && !loading" class="error-state">
+        <span class="error-icon">⚠️</span>
+        <p>{{ error }}</p>
+      </div>
+
+      <!-- Results -->
+      <ng-container *ngIf="!loading && !error && pagedData">
+        <div class="results-bar">
+          <span>{{ pagedData.totalCount }} products found</span>
+        </div>
+
+        <div *ngIf="pagedData.products.length === 0" class="empty-state">
+          <span>🔍</span>
+          <p>No products match your filters.</p>
+        </div>
+
+        <div class="product-grid">
+          <div *ngFor="let product of pagedData.products"
+               class="product-card"
+               [class.out-of-stock]="!product.isAvailable">
+            <a [routerLink]="['/products', product.productId]" class="card-link">
+              <div class="card-image-wrap">
+                <img [src]="getImageUrl(product.imageUrl)" [alt]="product.name" class="card-image" />
+                <span *ngIf="!product.isAvailable" class="badge badge-oos">Out of Stock</span>
+                <span *ngIf="product.isAvailable && product.isLowStock" class="badge badge-low">Low Stock</span>
+              </div>
+              <div class="card-body">
+                <span class="card-category">{{ product.categoryName }}</span>
+                <h3 class="card-title">{{ product.name }}</h3>
+                <p class="card-desc">{{ product.description | slice:0:80 }}{{ (product.description?.length ?? 0) > 80 ? '...' : '' }}</p>
+                <div class="card-footer">
+                  <span class="card-price">₹{{ product.price | number:'1.2-2' }}</span>
+                  <button class="add-btn" [disabled]="!product.isAvailable"
+                          (click)="$event.preventDefault()">
+                    {{ product.isAvailable ? 'Add to Cart' : 'Unavailable' }}
+                  </button>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination" *ngIf="pagedData.totalPages > 1">
+          <button (click)="goToPage(pagedData!.page - 1)" [disabled]="pagedData.page === 1">‹</button>
+          <button *ngFor="let p of pages"
+                  (click)="goToPage(p)"
+                  [class.active]="p === pagedData.page">{{ p }}</button>
+          <button (click)="goToPage(pagedData!.page + 1)" [disabled]="pagedData.page === pagedData!.totalPages">›</button>
+        </div>
+      </ng-container>
+    </main>
+  </div>
+</div>

@@ -1,1 +1,100 @@
-<p>coupons works!</p>
+<div class="page-container">
+  <div class="page-header">
+    <h2 class="page-title">Manage Coupons</h2>
+    <button class="btn btn-primary" (click)="openCreate()">+ New Coupon</button>
+  </div>
+
+  <div *ngIf="actionMessage" class="alert alert-success">{{ actionMessage }}</div>
+  <div *ngIf="errorMessage" class="alert alert-error">{{ errorMessage }}</div>
+  <div *ngIf="loading" class="loader">Loading coupons...</div>
+
+  <div *ngIf="!loading" class="table-wrapper">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Code</th>
+          <th>Type</th>
+          <th>Discount</th>
+          <th>Min Order</th>
+          <th>Usage</th>
+          <th>Expires</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let c of coupons">
+          <td><strong>{{ c.code }}</strong></td>
+          <td>{{ c.discountType }}</td>
+          <td>
+            {{ c.discountType === 'Percentage' ? c.discountValue + '%' : '₹' + c.discountValue }}
+          </td>
+          <td>{{ c.minOrderAmount ? '₹' + c.minOrderAmount : '—' }}</td>
+          <td>{{ c.usedCount }} / {{ c.maxUsageCount ?? '∞' }}</td>
+          <td>{{ c.expiresAt ? (c.expiresAt | date:'dd MMM yyyy') : 'Never' }}</td>
+          <td>
+            <span class="badge" [class.badge-active]="c.isActive" [class.badge-inactive]="!c.isActive">
+              {{ c.isActive ? 'Active' : 'Inactive' }}
+            </span>
+          </td>
+          <td class="actions">
+            <button class="btn btn-sm btn-info" (click)="openEdit(c)">Edit</button>
+            <button class="btn btn-sm" [class.btn-warning]="c.isActive" [class.btn-success]="!c.isActive"
+              (click)="toggleActive(c)">
+              {{ c.isActive ? 'Deactivate' : 'Activate' }}
+            </button>
+            <button class="btn btn-sm btn-danger" (click)="deleteCoupon(c.couponId)">Delete</button>
+          </td>
+        </tr>
+        <tr *ngIf="coupons.length === 0">
+          <td colspan="8" class="empty-row">No coupons found. Create one!</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Create / Edit Modal -->
+<div class="modal-overlay" *ngIf="showForm" (click)="closeForm()">
+  <div class="modal-box" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <h3>{{ editingId ? 'Edit Coupon' : 'Create Coupon' }}</h3>
+      <button class="modal-close" (click)="closeForm()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Code</label>
+        <input type="text" [(ngModel)]="form.code" placeholder="e.g. SAVE20" [disabled]="!!editingId" />
+      </div>
+      <div class="form-group">
+        <label>Discount Type</label>
+        <select [(ngModel)]="form.discountType">
+          <option value="Percentage">Percentage (%)</option>
+          <option value="Fixed">Fixed (₹)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Discount Value</label>
+        <input type="number" [(ngModel)]="form.discountValue" min="0.01" />
+      </div>
+      <div class="form-group">
+        <label>Minimum Order Amount (optional)</label>
+        <input type="number" [(ngModel)]="form.minOrderAmount" placeholder="e.g. 500" />
+      </div>
+      <div class="form-group">
+        <label>Max Usage Count (optional)</label>
+        <input type="number" [(ngModel)]="form.maxUsageCount" placeholder="Leave blank for unlimited" />
+      </div>
+      <div class="form-group">
+        <label>Expiry Date (optional)</label>
+        <input type="date" [(ngModel)]="form.expiresAt" />
+      </div>
+      <div class="form-actions">
+        <button class="btn btn-secondary" (click)="closeForm()">Cancel</button>
+        <button class="btn btn-primary" (click)="submitForm()">
+          {{ editingId ? 'Update' : 'Create' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
