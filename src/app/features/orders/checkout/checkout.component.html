@@ -1,1 +1,56 @@
-<p>checkout works!</p>
+<div class="checkout-page">
+  <h1 class="page-title">&#128230; Checkout</h1>
+
+  <div class="checkout-grid">
+    <div class="checkout-form">
+      <div class="form-card">
+        <h2>Delivery Information</h2>
+        <div class="form-group">
+          <label>Delivery Address *</label>
+          <textarea [(ngModel)]="address" rows="3" placeholder="Enter your full delivery address..."
+                    class="form-control" [class.error-input]="error && !address.trim()"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Special Instructions</label>
+          <input [(ngModel)]="notes" type="text" placeholder="E.g., Ring the bell, leave at door..."
+                 class="form-control" />
+        </div>
+        <div class="form-group">
+          <label>Payment Method</label>
+          <div class="payment-options">
+            <label class="pay-opt" [class.active]="paymentMethod === 'COD'">
+              <input type="radio" [(ngModel)]="paymentMethod" value="COD" /> Cash on Delivery
+            </label>
+            <label class="pay-opt" [class.active]="paymentMethod === 'Online'">
+              <input type="radio" [(ngModel)]="paymentMethod" value="Online" /> Online Payment
+            </label>
+          </div>
+        </div>
+        <div *ngIf="error" class="error-msg">{{ error }}</div>
+        <button class="btn-place-order" (click)="placeOrder()" [disabled]="loading">
+          <span *ngIf="!loading">Place Order &#8594;</span>
+          <span *ngIf="loading">Placing Order...</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="order-review">
+      <div class="form-card">
+        <h2>Order Review</h2>
+        <div *ngIf="cartLoading" class="loading-text">Loading...</div>
+        <div *ngIf="cart">
+          <div class="review-item" *ngFor="let item of cart.items">
+            <span class="item-name">{{ item.productName }} x{{ item.quantity }}</span>
+            <span class="item-price">&#8377;{{ item.subTotal | number:"1.2-2" }}</span>
+          </div>
+          <hr class="divider" />
+          <div class="review-item"><span>Delivery Fee</span><span>&#8377;30.00</span></div>
+          <div class="review-item total-row">
+            <span>Total</span>
+            <span>&#8377;{{ cart.totalAmount | number:"1.2-2" }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
