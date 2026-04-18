@@ -1,1 +1,57 @@
-<p>manage-users works!</p>
+<div class="page-container">
+  <h2 class="page-title">Manage Users</h2>
+
+  <div *ngIf="actionMessage" class="alert alert-success">{{ actionMessage }}</div>
+  <div *ngIf="errorMessage" class="alert alert-error">{{ errorMessage }}</div>
+  <div *ngIf="loading" class="loader">Loading users...</div>
+
+  <div *ngIf="!loading" class="table-wrapper">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Phone</th>
+          <th>Role</th>
+          <th>Verified</th>
+          <th>Status</th>
+          <th>Joined</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users; let i = index">
+          <td>{{ i + 1 }}</td>
+          <td>{{ user.fullName }}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.phone || '—' }}</td>
+          <td><span class="badge badge-role">{{ user.roleName }}</span></td>
+          <td>
+            <span class="badge" [class.badge-yes]="user.isEmailVerified" [class.badge-no]="!user.isEmailVerified">
+              {{ user.isEmailVerified ? 'Yes' : 'No' }}
+            </span>
+          </td>
+          <td>
+            <span class="badge" [class.badge-active]="user.isActive" [class.badge-inactive]="!user.isActive">
+              {{ user.isActive ? 'Active' : 'Inactive' }}
+            </span>
+          </td>
+          <td>{{ user.createdAt | date:'dd MMM yyyy' }}</td>
+          <td class="actions">
+            <button class="btn btn-sm"
+              [class.btn-warning]="user.isActive"
+              [class.btn-success]="!user.isActive"
+              (click)="toggleStatus(user)">
+              {{ user.isActive ? 'Deactivate' : 'Activate' }}
+            </button>
+            <button class="btn btn-sm btn-danger" (click)="deleteUser(user.userId)">Delete</button>
+          </td>
+        </tr>
+        <tr *ngIf="users.length === 0">
+          <td colspan="9" class="empty-row">No users found.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

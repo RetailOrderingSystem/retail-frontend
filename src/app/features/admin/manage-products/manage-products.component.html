@@ -1,1 +1,55 @@
-<p>manage-products works!</p>
+<div class="page-container">
+  <div class="page-header">
+    <h2 class="page-title">Manage Products</h2>
+    <span class="note">Product creation is handled by Member 2 (Product Module)</span>
+  </div>
+
+  <div *ngIf="actionMessage" class="alert alert-success">{{ actionMessage }}</div>
+  <div *ngIf="errorMessage" class="alert alert-error">{{ errorMessage }}</div>
+  <div *ngIf="loading" class="loader">Loading products...</div>
+
+  <div *ngIf="!loading" class="table-wrapper">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Image</th>
+          <th>Name</th>
+          <th>Category</th>
+          <th>Price</th>
+          <th>Stock</th>
+          <th>Available</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let p of products">
+          <td>
+            <img *ngIf="p.imageUrl" [src]="p.imageUrl" [alt]="p.name" class="product-thumb" />
+            <span *ngIf="!p.imageUrl" class="no-img">No img</span>
+          </td>
+          <td>{{ p.name }}</td>
+          <td>{{ p.categoryName || '—' }}</td>
+          <td>₹{{ p.price | number:'1.2-2' }}</td>
+          <td>{{ p.stock ?? '—' }}</td>
+          <td>
+            <span class="badge" [class.badge-active]="p.isAvailable" [class.badge-inactive]="!p.isAvailable">
+              {{ p.isAvailable ? 'Yes' : 'No' }}
+            </span>
+          </td>
+          <td class="actions">
+            <button class="btn btn-sm"
+              [class.btn-warning]="p.isAvailable"
+              [class.btn-success]="!p.isAvailable"
+              (click)="toggleAvailability(p)">
+              {{ p.isAvailable ? 'Disable' : 'Enable' }}
+            </button>
+            <button class="btn btn-sm btn-danger" (click)="deleteProduct(p.productId, p.name)">Delete</button>
+          </td>
+        </tr>
+        <tr *ngIf="products.length === 0">
+          <td colspan="7" class="empty-row">No products found.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
