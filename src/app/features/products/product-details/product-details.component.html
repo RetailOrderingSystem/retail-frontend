@@ -1,1 +1,60 @@
-<p>product-details works!</p>
+<!-- src/app/features/products/product-details/product-details.component.html -->
+<div class="details-page">
+  <div *ngIf="loading" class="loading-state">
+    <div class="spinner"></div>
+    <p>Loading product...</p>
+  </div>
+
+  <div *ngIf="error" class="error-state">
+    <p>{{ error }}</p>
+    <a routerLink="/products" class="back-link">← Back to Menu</a>
+  </div>
+
+  <ng-container *ngIf="product && !loading">
+    <a routerLink="/products" class="back-link">← Back to Menu</a>
+
+    <div class="details-card">
+      <!-- Image -->
+      <div class="details-image-wrap">
+        <img [src]="getImageUrl(product.imageUrl)" [alt]="product.name" class="details-image" />
+        <span *ngIf="!product.isAvailable" class="oos-overlay">Out of Stock</span>
+      </div>
+
+      <!-- Info -->
+      <div class="details-info">
+        <span class="details-category">{{ product.categoryName }}</span>
+        <h1 class="details-title">{{ product.name }}</h1>
+        <p class="details-desc">{{ product.description || 'No description available.' }}</p>
+
+        <!-- Stock Status -->
+        <div class="stock-status"
+             [class.in-stock]="product.isAvailable && !product.isLowStock"
+             [class.low-stock]="product.isLowStock"
+             [class.out-stock]="!product.isAvailable">
+          {{ getStockLabel() }}
+        </div>
+
+        <!-- Price -->
+        <div class="details-price">₹{{ product.price | number:'1.2-2' }}</div>
+
+        <!-- Quantity Selector -->
+        <div class="qty-control" *ngIf="product.isAvailable">
+          <button (click)="decrement()" [disabled]="quantity <= 1">−</button>
+          <span>{{ quantity }}</span>
+          <button (click)="increment()" [disabled]="quantity >= 10">+</button>
+        </div>
+
+        <!-- CTA -->
+        <button class="cta-btn" [disabled]="!product.isAvailable">
+          {{ product.isAvailable ? '🛒 Add to Cart' : 'Currently Unavailable' }}
+        </button>
+
+        <!-- Meta -->
+        <div class="details-meta">
+          <span>Category: <strong>{{ product.categoryName }}</strong></span>
+          <span>Added: <strong>{{ product.createdAt | date:'mediumDate' }}</strong></span>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>

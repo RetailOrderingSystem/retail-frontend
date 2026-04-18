@@ -1,1 +1,47 @@
-<p>filters works!</p>
+<!-- src/app/features/products/filters/filters.component.html -->
+<aside class="filter-sidebar">
+  <div class="filter-header">
+    <h3>🔍 Filters</h3>
+    <button class="reset-btn" (click)="reset()">Reset</button>
+  </div>
+
+  <!-- Search -->
+  <div class="filter-group">
+    <label>Search</label>
+    <input type="text" [(ngModel)]="filter.search" placeholder="Search products..."
+           class="filter-input" (keyup.enter)="apply()" />
+  </div>
+
+  <!-- Category -->
+  <div class="filter-group">
+    <label>Category</label>
+    <select [(ngModel)]="filter.categoryId" class="filter-select">
+      <option [ngValue]="undefined">All Categories</option>
+      <option *ngFor="let c of categories" [value]="c.categoryId">
+        {{ c.name }} ({{ c.productCount }})
+      </option>
+    </select>
+  </div>
+
+  <!-- Price Range -->
+  <div class="filter-group">
+    <label>Price Range</label>
+    <div class="price-range">
+      <input type="number" [(ngModel)]="minP" placeholder="Min" class="filter-input price-input" />
+      <span>–</span>
+      <input type="number" [(ngModel)]="maxP" placeholder="Max" class="filter-input price-input" />
+    </div>
+  </div>
+
+  <!-- Availability -->
+  <div class="filter-group">
+    <label>Availability</label>
+    <select [(ngModel)]="filter.isAvailable" class="filter-select">
+      <option [ngValue]="undefined">All</option>
+      <option [ngValue]="true">Available</option>
+      <option [ngValue]="false">Out of Stock</option>
+    </select>
+  </div>
+
+  <button class="apply-btn" (click)="apply()">Apply Filters</button>
+</aside>
