@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { RouterModule, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-profile',
+  standalone: true,
+  imports: [CommonModule, RouterModule],
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
@@ -19,7 +22,7 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  formatDate(dateStr: string): string {
+  formatDate(dateStr?: string | null): string {
     if (!dateStr) return '—';
     return new Date(dateStr).toLocaleString();
   }
