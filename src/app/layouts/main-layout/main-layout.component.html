@@ -1,7 +1,10 @@
 <div class="main-layout">
   <app-navbar></app-navbar>
-  <main class="main-content">
-    <router-outlet></router-outlet>
-  </main>
+  <div class="content-area">
+    <app-sidebar *ngIf="sidebarItems.length" [items]="sidebarItems"></app-sidebar>
+    <main class="main-content">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
   <app-footer></app-footer>
 </div>

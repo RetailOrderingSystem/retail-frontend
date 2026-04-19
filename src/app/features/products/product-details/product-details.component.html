@@ -45,9 +45,15 @@
         </div>
 
         <!-- CTA -->
-        <button class="cta-btn" [disabled]="!product.isAvailable">
-          {{ product.isAvailable ? '🛒 Add to Cart' : 'Currently Unavailable' }}
-        </button>
+        <div class="action-row">
+          <button class="cta-btn" [disabled]="!product.isAvailable || loadingCart" (click)="addToCart()">
+            <span *ngIf="!loadingCart">🛒 Add to Cart</span>
+            <span *ngIf="loadingCart">Adding...</span>
+          </button>
+          <button class="btn-buy" [disabled]="!product.isAvailable || loadingCart" (click)="buyNow()">
+            Order Now
+          </button>
+        </div>
 
         <!-- Meta -->
         <div class="details-meta">

@@ -32,9 +32,10 @@
 .card-footer { display: flex; justify-content: space-between; align-items: center; }
 .card-price { font-size: 16px; font-weight: 700; color: #059669; }
 .add-btn {
-  padding: 6px 14px; background: #2563eb; color: #fff;
-  border: none; border-radius: 8px; font-size: 12px; font-weight: 600;
+  padding: 8px 12px; background: #2563eb; color: #fff;
+  border: none; border-radius: 10px; font-size: 13px; font-weight: 600;
   cursor: pointer; transition: background 0.2s;
+  min-width: 110px;
 }
 .add-btn:hover:not(:disabled) { background: #1d4ed8; }
 .add-btn:disabled { background: #94a3b8; cursor: not-allowed; }

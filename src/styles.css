@@ -17,6 +17,28 @@ html, body {
   -webkit-font-smoothing: antialiased;
 }
 
+:root {
+  --brand: #1F497D;
+  --brand-alt: #ff4d4f;
+  --brand-soft: #eef3fb;
+  --surface: #ffffff;
+  --surface-strong: #f8fafc;
+  --text-primary: #1a1a2e;
+  --text-muted: #64748b;
+  --border: #e5e7eb;
+  --shadow: 0 16px 48px rgba(31, 73, 125, 0.12);
+  --radius: 16px;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at top center, rgba(255, 77, 79, 0.14), transparent 30%),
+              radial-gradient(circle at bottom right, rgba(31, 73, 125, 0.18), transparent 25%);
+  pointer-events: none;
+}
+
 /* Scrollbar */
 ::-webkit-scrollbar { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track { background: #f1f1f1; }
