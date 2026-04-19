@@ -1,9 +1,11 @@
 // src/app/features/products/product-list/product-list.component.ts
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { ProductService, ProductDto, PagedProductDto, ProductFilter } from '../services/product.service';
 import { FiltersComponent } from '../filters/filters.component';
+import { CartService } from '../../orders/services/cart.service';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-product-list',
@@ -17,8 +19,14 @@ export class ProductListComponent implements OnInit {
   currentFilter: ProductFilter = { page: 1, pageSize: 12 };
   loading = true;
   error = '';
+  addingProductId: number | null = null;
 
-  constructor(private productService: ProductService) {}
+  constructor(
+    private productService: ProductService,
+    private cartService: CartService,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   ngOnInit() { this.loadProducts(); }
 
@@ -39,6 +47,28 @@ export class ProductListComponent implements OnInit {
     this.currentFilter.page = page;
     this.loadProducts();
     window.scrollTo(0, 0);
+  }
+
+  addToCart(product: ProductDto, event: MouseEvent) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    if (!this.authService.isLoggedIn()) {
+      this.router.navigate(['/auth/login']);
+      return;
+    }
+
+    this.addingProductId = product.productId;
+    this.cartService.addToCart(product.productId).subscribe({
+      next: () => {
+        this.addingProductId = null;
+        this.router.navigate(['/cart']);
+      },
+      error: () => {
+        this.error = 'Unable to add item to cart. Please try again.';
+        this.addingProductId = null;
+      }
+    });
   }
 
   get pages(): number[] {

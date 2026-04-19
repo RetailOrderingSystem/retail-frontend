@@ -47,15 +47,17 @@
                 <span class="card-category">{{ product.categoryName }}</span>
                 <h3 class="card-title">{{ product.name }}</h3>
                 <p class="card-desc">{{ product.description | slice:0:80 }}{{ (product.description?.length ?? 0) > 80 ? '...' : '' }}</p>
-                <div class="card-footer">
-                  <span class="card-price">₹{{ product.price | number:'1.2-2' }}</span>
-                  <button class="add-btn" [disabled]="!product.isAvailable"
-                          (click)="$event.preventDefault()">
-                    {{ product.isAvailable ? 'Add to Cart' : 'Unavailable' }}
-                  </button>
-                </div>
               </div>
             </a>
+            <div class="card-footer">
+              <span class="card-price">₹{{ product.price | number:'1.2-2' }}</span>
+              <button class="add-btn"
+                      [disabled]="!product.isAvailable || addingProductId === product.productId"
+                      (click)="addToCart(product, $event)">
+                <ng-container *ngIf="addingProductId === product.productId">Adding...</ng-container>
+                <ng-container *ngIf="addingProductId !== product.productId">{{ product.isAvailable ? 'Add to Cart' : 'Unavailable' }}</ng-container>
+              </button>
+            </div>
           </div>
         </div>
 
