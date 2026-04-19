@@ -1,8 +1,10 @@
 // src/app/features/products/product-details/product-details.component.ts
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ProductService, ProductDto } from '../services/product.service';
+import { CartService } from '../../orders/services/cart.service';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-product-details',
@@ -16,8 +18,15 @@ export class ProductDetailsComponent implements OnInit {
   loading = true;
   error = '';
   quantity = 1;
+  loadingCart = false;
 
-  constructor(private route: ActivatedRoute, private productService: ProductService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private productService: ProductService,
+    private cartService: CartService,
+    private authService: AuthService
+  ) {}
 
   ngOnInit() {
     const id = Number(this.route.snapshot.paramMap.get('id'));
@@ -29,6 +38,48 @@ export class ProductDetailsComponent implements OnInit {
 
   increment() { if (this.quantity < 10) this.quantity++; }
   decrement() { if (this.quantity > 1) this.quantity--; }
+
+  addToCart() {
+    if (!this.product) return;
+
+    if (!this.authService.isLoggedIn()) {
+      this.router.navigate(['/auth/login']);
+      return;
+    }
+
+    this.loadingCart = true;
+    this.cartService.addToCart(this.product.productId, this.quantity).subscribe({
+      next: () => {
+        this.loadingCart = false;
+        this.router.navigate(['/cart']);
+      },
+      error: () => {
+        this.loadingCart = false;
+        this.error = 'Unable to add product to cart. Please try again.';
+      }
+    });
+  }
+
+  buyNow() {
+    if (!this.product) return;
+
+    if (!this.authService.isLoggedIn()) {
+      this.router.navigate(['/auth/login']);
+      return;
+    }
+
+    this.loadingCart = true;
+    this.cartService.addToCart(this.product.productId, this.quantity).subscribe({
+      next: () => {
+        this.loadingCart = false;
+        this.router.navigate(['/checkout']);
+      },
+      error: () => {
+        this.loadingCart = false;
+        this.error = 'Unable to place order. Please try again.';
+      }
+    });
+  }
 
   getImageUrl(url?: string) {
     return url || 'assets/images/placeholder-food.jpg';

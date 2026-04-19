@@ -5,20 +5,21 @@
   align-items: center;
   justify-content: center;
   background: linear-gradient(135deg, #1F497D 0%, #2e75b6 50%, #1a1a2e 100%);
-  padding: 24px;
+  padding: 18px;
 }
 .auth-brand {
   text-align: center;
   color: white;
-  margin-bottom: 32px;
+  margin-bottom: 16px;
+  max-width: 420px;
 }
-.brand-icon { font-size: 48px; display: block; margin-bottom: 8px; }
-.auth-brand h1 { font-size: 32px; margin: 0 0 8px; font-weight: 800; }
-.auth-brand p { font-size: 15px; opacity: 0.85; margin: 0; }
+.brand-icon { font-size: 44px; display: block; margin-bottom: 10px; }
+.auth-brand h1 { font-size: 30px; margin: 0 0 8px; font-weight: 800; }
+.auth-brand p { font-size: 14px; opacity: 0.9; margin: 0; line-height: 1.5; }
 .auth-card {
   background: white;
   border-radius: 16px;
-  padding: 40px;
+  padding: 32px;
   width: 100%;
   max-width: 420px;
   box-shadow: 0 16px 48px rgba(0,0,0,0.25);

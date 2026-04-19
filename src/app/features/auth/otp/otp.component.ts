@@ -83,7 +83,7 @@ export class OtpComponent implements OnInit, OnDestroy {
         this.authService.storeTokens(res.accessToken, res.refreshToken);
         if (res.user) this.authService.storeUser(res.user);
         localStorage.removeItem('pendingEmail');
-        this.router.navigate(['/home']);
+        this.router.navigate(['/products']);
       },
       error: (err) => {
         this.error = err?.error?.message || 'Invalid OTP. Please try again.';

@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { environment } from '../../../../environments/environment';
 
-const BASE_URL = 'http://localhost:5253/api';
+const BASE_URL = `${environment.apiUrl}/api`;
 
 export interface RegisterPayload {
   fullName: string;
@@ -37,6 +38,8 @@ export interface AuthResponse {
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private logoutTimer: any;
+  private currentUserSubject = new BehaviorSubject<any>(this.getUser());
+  public currentUser$ = this.currentUserSubject.asObservable();
 
   constructor(private http: HttpClient) {}
 
@@ -60,6 +63,7 @@ export class AuthService {
 
   storeUser(user: any): void {
     localStorage.setItem('user', JSON.stringify(user));
+    this.currentUserSubject.next(user);
   }
 
   getUser(): any {
@@ -71,10 +75,16 @@ export class AuthService {
     return localStorage.getItem('accessToken');
   }
 
+  isAdmin(): boolean {
+    const user = this.getUser();
+    return user?.role === 'Admin';
+  }
+
   logout(): void {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
     localStorage.removeItem('user');
+    this.currentUserSubject.next(null);
     if (this.logoutTimer) clearTimeout(this.logoutTimer);
   }
 

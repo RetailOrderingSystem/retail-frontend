@@ -4,9 +4,14 @@ import { MainLayoutComponent } from './layouts/main-layout/main-layout.component
 import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
 
 export const routes: Routes = [
-  // Auth Layout Routes
   {
     path: '',
+    redirectTo: 'auth/login',
+    pathMatch: 'full'
+  },
+  // Auth Layout Routes
+  {
+    path: 'auth',
     component: AuthLayoutComponent,
     children: [
       {
@@ -24,6 +29,11 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./features/auth/otp/otp.component').then(m => m.OtpComponent)
       },
+      {
+        path: '',
+        redirectTo: 'login',
+        pathMatch: 'full'
+      }
     ]
   },
 
@@ -33,11 +43,6 @@ export const routes: Routes = [
     component: MainLayoutComponent,
     children: [
       // Public
-      {
-        path: '',
-        redirectTo: 'products',
-        pathMatch: 'full'
-      },
       {
         path: 'products',
         loadComponent: () =>
@@ -124,6 +129,6 @@ export const routes: Routes = [
   },
 
   // Wildcard
-  { path: '**', redirectTo: 'products' }
+  { path: '**', redirectTo: 'auth/login' }
 ];
 
