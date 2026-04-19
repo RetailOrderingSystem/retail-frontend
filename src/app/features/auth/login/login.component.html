@@ -1,1 +1,38 @@
-<p>login works!</p>
+<div class="auth-wrapper">
+  <div class="auth-card">
+    <div class="brand">
+      <div class="brand-icon">⚡</div>
+      <h1>Welcome back</h1>
+      <p>Enter your email to receive a one-time password</p>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+      <div class="field">
+        <label for="email">Email address</label>
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          placeholder="you@example.com"
+          autocomplete="email"
+          [class.input-error]="email.invalid && email.touched"
+        />
+        <span class="error-msg" *ngIf="email.invalid && email.touched">
+          <ng-container *ngIf="email.errors?.['required']">Email is required.</ng-container>
+          <ng-container *ngIf="email.errors?.['email']">Enter a valid email address.</ng-container>
+        </span>
+      </div>
+
+      <div class="server-error" *ngIf="error">{{ error }}</div>
+
+      <button type="submit" class="btn-primary" [disabled]="form.invalid || loading">
+        <span *ngIf="!loading">Send OTP →</span>
+        <span *ngIf="loading" class="spinner"></span>
+      </button>
+    </form>
+
+    <div class="footer-link">
+      Don't have an account? <a routerLink="/auth/register">Register</a>
+    </div>
+  </div>
+</div>

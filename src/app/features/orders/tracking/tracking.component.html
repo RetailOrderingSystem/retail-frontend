@@ -1,1 +1,60 @@
-<p>tracking works!</p>
+<div class="tracking-page">
+  <h1 class="page-title">&#128690; Order Tracking</h1>
+
+  <div *ngIf="loading" class="loading-spinner">
+    <div class="spinner"></div><p>Fetching order details...</p>
+  </div>
+
+  <div *ngIf="!loading && order" class="tracking-container">
+    <div class="order-meta-card">
+      <div class="meta-row">
+        <span class="meta-label">Order #</span>
+        <span class="meta-value">{{ order.orderId }}</span>
+      </div>
+      <div class="meta-row">
+        <span class="meta-label">Status</span>
+        <span class="status-badge" [class]="'status-' + order.status.toLowerCase()">{{ order.status }}</span>
+      </div>
+      <div class="meta-row">
+        <span class="meta-label">Placed On</span>
+        <span class="meta-value">{{ order.createdAt | date:"medium" }}</span>
+      </div>
+      <div class="meta-row">
+        <span class="meta-label">Delivery To</span>
+        <span class="meta-value">{{ order.deliveryAddress }}</span>
+      </div>
+    </div>
+
+    <div class="timeline-card">
+      <h2>Live Status</h2>
+      <div class="timeline">
+        <div *ngFor="let step of statusSteps; let i = index"
+             class="timeline-step" [class.completed]="isCompleted(i)" [class.active]="getStepIndex(order.status) === i">
+          <div class="step-circle"><span [innerHTML]="step.icon"></span></div>
+          <div class="step-label">{{ step.label }}</div>
+          <div class="step-connector" *ngIf="i < statusSteps.length - 1"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="items-card">
+      <h2>Items Ordered</h2>
+      <div class="order-item-row" *ngFor="let item of order.items">
+        <img [src]="item.imageUrl || 'assets/placeholder.png'" [alt]="item.productName" />
+        <div class="item-details">
+          <span class="item-name">{{ item.productName }}</span>
+          <span class="item-qty">Qty: {{ item.quantity }}</span>
+        </div>
+        <span class="item-sub">&#8377;{{ item.subTotal | number:"1.2-2" }}</span>
+      </div>
+      <div class="order-totals">
+        <div class="total-row"><span>Delivery</span><span>&#8377;{{ order.deliveryFee | number:"1.2-2" }}</span></div>
+        <div class="total-row grand"><span>Total Paid</span><span>&#8377;{{ order.totalAmount | number:"1.2-2" }}</span></div>
+      </div>
+    </div>
+
+    <div class="back-row">
+      <a routerLink="/orders" class="btn-history">&#8592; View All Orders</a>
+    </div>
+  </div>
+</div>

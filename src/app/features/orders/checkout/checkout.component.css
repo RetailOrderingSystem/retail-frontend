@@ -1,0 +1,30 @@
+.checkout-page { max-width: 1000px; margin: 2rem auto; padding: 0 1rem; font-family: Arial, sans-serif; }
+.page-title { color: #1E3A5F; font-size: 1.8rem; margin-bottom: 1.5rem; }
+.checkout-grid { display: grid; grid-template-columns: 1.4fr 1fr; gap: 2rem; }
+@media (max-width: 768px) { .checkout-grid { grid-template-columns: 1fr; } }
+.form-card { background: #fff; border: 1px solid #D6EAF8; border-radius: 12px;
+  padding: 1.5rem; box-shadow: 0 2px 12px rgba(0,0,0,0.07); }
+.form-card h2 { color: #1E3A5F; margin-bottom: 1.5rem; font-size: 1.1rem; }
+.form-group { margin-bottom: 1.25rem; }
+.form-group label { display: block; font-size: 0.9rem; font-weight: 600;
+  color: #1E3A5F; margin-bottom: 0.5rem; }
+.form-control { width: 100%; padding: 0.7rem 0.9rem; border: 1px solid #BDC3C7;
+  border-radius: 8px; font-size: 0.95rem; box-sizing: border-box; transition: border-color 0.2s; }
+.form-control:focus { outline: none; border-color: #2980B9; box-shadow: 0 0 0 3px rgba(41,128,185,0.15); }
+.error-input { border-color: #E74C3C !important; }
+.payment-options { display: flex; gap: 1rem; }
+.pay-opt { flex: 1; border: 2px solid #D6EAF8; border-radius: 8px; padding: 0.75rem;
+  cursor: pointer; display: flex; align-items: center; gap: 0.5rem;
+  transition: all 0.2s; font-size: 0.9rem; }
+.pay-opt.active { border-color: #2980B9; background: #EBF5FB; color: #1E3A5F; font-weight: 600; }
+.pay-opt input { accent-color: #2980B9; }
+.error-msg { background: #FDEBD0; color: #E74C3C; padding: 0.75rem; border-radius: 8px; margin-bottom: 1rem; }
+.btn-place-order { width: 100%; padding: 0.9rem; background: linear-gradient(135deg, #1E3A5F, #2980B9);
+  color: #fff; border: none; border-radius: 8px; font-size: 1rem; font-weight: 600; cursor: pointer; }
+.btn-place-order:disabled { opacity: 0.6; cursor: not-allowed; }
+.review-item { display: flex; justify-content: space-between; padding: 0.5rem 0;
+  font-size: 0.9rem; color: #5D6D7E; }
+.divider { border: none; border-top: 1px solid #EBF5FB; margin: 0.75rem 0; }
+.total-row { font-weight: 700; font-size: 1rem; color: #1E3A5F; padding-top: 0.75rem;
+  border-top: 2px solid #D6EAF8; }
+.loading-text { color: #7F8C8D; font-size: 0.9rem; }
