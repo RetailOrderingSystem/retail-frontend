@@ -29,31 +29,31 @@ export class CartService {
   constructor(private api: ApiService) {}
 
   getCart(): Observable<ApiResponse<CartResponse>> {
-    return this.api.get<CartResponse>("cart").pipe(
+    return this.api.get<CartResponse>("api/cart").pipe(
       tap(res => { if (res.success && res.data) this.cartSubject.next(res.data); })
     );
   }
 
   addToCart(productId: number, quantity: number = 1): Observable<ApiResponse<CartResponse>> {
-    return this.api.post<CartResponse>("cart/add", { productId, quantity }).pipe(
+    return this.api.post<CartResponse>("api/cart/add", { productId, quantity }).pipe(
       tap(res => { if (res.success && res.data) this.cartSubject.next(res.data); })
     );
   }
 
   updateItem(cartItemId: number, quantity: number): Observable<ApiResponse<CartResponse>> {
-    return this.api.put<CartResponse>(`cart/item/${cartItemId}`, { quantity }).pipe(
+    return this.api.put<CartResponse>(`api/cart/item/${cartItemId}`, { quantity }).pipe(
       tap(res => { if (res.success && res.data) this.cartSubject.next(res.data); })
     );
   }
 
   removeItem(cartItemId: number): Observable<ApiResponse<CartResponse>> {
-    return this.api.delete<CartResponse>(`cart/item/${cartItemId}`).pipe(
+    return this.api.delete<CartResponse>(`api/cart/item/${cartItemId}`).pipe(
       tap(res => { if (res.success && res.data) this.cartSubject.next(res.data); })
     );
   }
 
   clearCart(): Observable<ApiResponse<any>> {
-    return this.api.delete("cart/clear").pipe(
+    return this.api.delete("api/cart/clear").pipe(
       tap(() => this.cartSubject.next(null))
     );
   }

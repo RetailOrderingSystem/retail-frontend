@@ -5,7 +5,7 @@ import { RouterModule, Router } from '@angular/router';
 import { ProductService, ProductDto, PagedProductDto, ProductFilter } from '../services/product.service';
 import { FiltersComponent } from '../filters/filters.component';
 import { CartService } from '../../orders/services/cart.service';
-import { AuthService } from '../../../core/services/auth.service';
+import { AuthService } from '../../auth/services/auth.service';
 
 @Component({
   selector: 'app-product-list',
@@ -50,26 +50,27 @@ export class ProductListComponent implements OnInit {
   }
 
   addToCart(product: ProductDto, event: MouseEvent) {
-    event.preventDefault();
-    event.stopPropagation();
+  event.preventDefault();
+  event.stopPropagation();
 
-    if (!this.authService.isLoggedIn()) {
-      this.router.navigate(['/auth/login']);
-      return;
-    }
-
-    this.addingProductId = product.productId;
-    this.cartService.addToCart(product.productId).subscribe({
-      next: () => {
-        this.addingProductId = null;
-        this.router.navigate(['/cart']);
-      },
-      error: () => {
-        this.error = 'Unable to add item to cart. Please try again.';
-        this.addingProductId = null;
-      }
-    });
+  if (!this.authService.isLoggedIn()) {
+    this.router.navigate(['/auth/login']);
+    return;
   }
+
+  this.addingProductId = product.productId;
+  this.cartService.addToCart(product.productId).subscribe({
+    next: () => {
+      this.addingProductId = null;
+      // show a success message instead of navigating
+      alert('Item added to cart!'); // or use a toast notification
+    },
+    error: () => {
+      this.error = 'Unable to add item to cart. Please try again.';
+      this.addingProductId = null;
+    }
+  });
+}
 
   get pages(): number[] {
     if (!this.pagedData) return [];

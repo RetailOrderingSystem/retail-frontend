@@ -47,6 +47,9 @@ export interface AuthResponse {
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
+  getToken(): string | null {
+  return this.getAccessToken();
+}
   private logoutTimer: any;
   private currentUserSubject = new BehaviorSubject<any>(this.getUser());
   public currentUser$ = this.currentUserSubject.asObservable();

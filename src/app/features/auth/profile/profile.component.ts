@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Router } from '@angular/router';
-import { AuthService } from '../services/auth.service';
+import { AuthService } from '../../auth/services/auth.service';
 import { ApiService } from '../../../core/services/api.service';
 
 @Component({
@@ -52,7 +52,7 @@ export class ProfileComponent implements OnInit {
     this.loading = true;
     this.error = null;
 
-    this.apiService.get('/user/profile').subscribe({
+    this.apiService.get('api/user/profile').subscribe({
       next: (response: any) => {
         if (response.success && response.data) {
           this.user = response.data;

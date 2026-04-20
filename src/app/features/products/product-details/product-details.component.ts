@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ProductService, ProductDto } from '../services/product.service';
 import { CartService } from '../../orders/services/cart.service';
-import { AuthService } from '../../../core/services/auth.service';
+import { AuthService } from '../../auth/services/auth.service';
 
 @Component({
   selector: 'app-product-details',
