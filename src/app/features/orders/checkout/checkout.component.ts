@@ -28,25 +28,42 @@ export class CheckoutComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    console.log('Checkout Component: Loading cart...');
     this.cartService.getCart().subscribe({
-      next: res => { this.cart = res.data ?? null; this.cartLoading = false; },
-      error: () => this.cartLoading = false
+      next: res => { 
+        this.cart = res.data ?? null; 
+        this.cartLoading = false;
+        console.log('Checkout cart loaded:', this.cart);
+      },
+      error: (err) => {
+        console.error('Checkout cart error:', err);
+        this.cartLoading = false;
+      }
     });
   }
 
   placeOrder(): void {
     if (!this.address.trim()) { this.error = "Please enter delivery address."; return; }
-    this.loading = true; this.error = "";
+    this.loading = true; 
+    this.error = "";
+    console.log('Placing order with address:', this.address);
+    
     this.orderService.placeOrder({
       deliveryAddress: this.address,
       notes: this.notes,
       paymentMethod: this.paymentMethod
     }).subscribe({
       next: res => {
-        if (res.success && res.data)
-          this.router.navigate(["/tracking", res.data.orderId]);
+        console.log('Order placed successfully:', res);
+        if (res.success && res.data) {
+          this.router.navigate(["/orders/tracking", res.data.orderId]);
+        }
       },
-      error: err => { this.error = err?.error?.message || "Order failed."; this.loading = false; }
+      error: err => { 
+        console.error('Order placement error:', err);
+        this.error = err?.error?.message || "Order failed."; 
+        this.loading = false; 
+      }
     });
   }
 }

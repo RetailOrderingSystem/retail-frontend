@@ -18,17 +18,32 @@ export class OrderHistoryComponent implements OnInit {
   constructor(private orderService: OrderService) {}
 
   ngOnInit(): void {
+    console.log('Order History Component: Loading orders...');
     this.orderService.getOrderHistory().subscribe({
-      next: res => { this.orders = res.data ?? []; this.loading = false; },
-      error: () => this.loading = false
+      next: res => { 
+        this.orders = res.data ?? []; 
+        this.loading = false;
+        console.log('Orders loaded:', this.orders);
+      },
+      error: (err) => {
+        console.error('Order history error:', err);
+        this.loading = false;
+      }
     });
   }
 
   reorder(orderId: number): void {
     this.reorderingId = orderId;
     this.orderService.reorder(orderId).subscribe({
-      next: () => { alert("Reorder placed!"); this.reorderingId = null; },
-      error: () => { alert("Reorder failed."); this.reorderingId = null; }
+      next: () => { 
+        alert("Reorder placed!"); 
+        this.reorderingId = null; 
+      },
+      error: (err) => { 
+        console.error('Reorder error:', err);
+        alert("Reorder failed."); 
+        this.reorderingId = null; 
+      }
     });
   }
 

@@ -19,6 +19,7 @@ export class ProductDetailsComponent implements OnInit {
   error = '';
   quantity = 1;
   loadingCart = false;
+  isLoggedIn = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -29,6 +30,14 @@ export class ProductDetailsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    // Check initial login state
+    this.isLoggedIn = this.authService.isLoggedIn();
+    
+    // Subscribe to auth state changes
+    this.authService.currentUser$.subscribe(user => {
+      this.isLoggedIn = this.authService.isLoggedIn();
+    });
+
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.productService.getProductById(id).subscribe({
       next: p => { this.product = p; this.loading = false; },
@@ -42,8 +51,10 @@ export class ProductDetailsComponent implements OnInit {
   addToCart() {
     if (!this.product) return;
 
-    if (!this.authService.isLoggedIn()) {
-      this.router.navigate(['/auth/login']);
+    if (!this.isLoggedIn) {
+      this.router.navigate(['/auth/login'], {
+        queryParams: { returnUrl: `/products/${this.product.productId}` }
+      });
       return;
     }
 
@@ -51,10 +62,12 @@ export class ProductDetailsComponent implements OnInit {
     this.cartService.addToCart(this.product.productId, this.quantity).subscribe({
       next: () => {
         this.loadingCart = false;
+        // Navigate to cart immediately
         this.router.navigate(['/cart']);
       },
-      error: () => {
+      error: (err) => {
         this.loadingCart = false;
+        console.error('Add to cart error:', err);
         this.error = 'Unable to add product to cart. Please try again.';
       }
     });
@@ -63,8 +76,10 @@ export class ProductDetailsComponent implements OnInit {
   buyNow() {
     if (!this.product) return;
 
-    if (!this.authService.isLoggedIn()) {
-      this.router.navigate(['/auth/login']);
+    if (!this.isLoggedIn) {
+      this.router.navigate(['/auth/login'], {
+        queryParams: { returnUrl: `/products/${this.product.productId}` }
+      });
       return;
     }
 
@@ -72,10 +87,12 @@ export class ProductDetailsComponent implements OnInit {
     this.cartService.addToCart(this.product.productId, this.quantity).subscribe({
       next: () => {
         this.loadingCart = false;
+        // Navigate to checkout immediately
         this.router.navigate(['/checkout']);
       },
-      error: () => {
+      error: (err) => {
         this.loadingCart = false;
+        console.error('Buy now error:', err);
         this.error = 'Unable to place order. Please try again.';
       }
     });

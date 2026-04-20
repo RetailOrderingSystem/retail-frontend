@@ -4,7 +4,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #1F497D 0%, #2e75b6 50%, #1a1a2e 100%);
+  background: linear-gradient(135deg, #FF9500 0%, #FFB84D 50%, #FF7A00 100%);
   padding: 18px;
 }
 .auth-brand {
@@ -22,7 +22,7 @@
   padding: 32px;
   width: 100%;
   max-width: 420px;
-  box-shadow: 0 16px 48px rgba(0,0,0,0.25);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.15);
 }
 @media (max-width: 480px) {
   .auth-card { padding: 24px; }

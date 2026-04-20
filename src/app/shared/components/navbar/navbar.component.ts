@@ -13,13 +13,19 @@ import { AuthService } from '../../../features/auth/services/auth.service';
 export class NavbarComponent implements OnInit {
   currentUser: any = null;
   isMenuOpen = false;
+  isLoggedIn = false;
 
   constructor(public authService: AuthService) {}
 
   ngOnInit(): void {
+    // Check initial auth state
+    this.isLoggedIn = this.authService.isLoggedIn();
     this.currentUser = this.authService.getUser();
+    
+    // Subscribe to user changes
     this.authService.currentUser$.subscribe(user => {
       this.currentUser = user;
+      this.isLoggedIn = this.authService.isLoggedIn();
     });
   }
 
@@ -27,7 +33,12 @@ export class NavbarComponent implements OnInit {
     this.isMenuOpen = !this.isMenuOpen;
   }
 
+  closeMenu(): void {
+    this.isMenuOpen = false;
+  }
+
   logout(): void {
     this.authService.logout();
+    this.closeMenu();
   }
 }

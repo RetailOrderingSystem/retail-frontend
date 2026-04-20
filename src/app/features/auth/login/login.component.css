@@ -63,19 +63,19 @@
   transition: border-color 0.2s;
 }
 
-.field input:focus { border-color: #ff4d4f; }
-.field input.input-error { border-color: #ff4d4f; }
+.field input:focus { border-color: #FF9500; background: #FFF5E6; }
+.field input.input-error { border-color: #E74C3C; }
 
 .error-msg {
   font-size: 12px;
-  color: #ff4d4f;
+  color: #E74C3C;
   margin-top: 4px;
 }
 
 .server-error {
-  background: #fff1f0;
-  border: 1px solid #ffa39e;
-  color: #cf1322;
+  background: #FEE2E2;
+  border: 1px solid #E74C3C;
+  color: #E74C3C;
   border-radius: 8px;
   padding: 10px 14px;
   font-size: 13px;
@@ -85,7 +85,7 @@
 .btn-primary {
   width: 100%;
   padding: 13px;
-  background: #ff4d4f;
+  background: #FF9500;
   color: #fff;
   border: none;
   border-radius: 8px;

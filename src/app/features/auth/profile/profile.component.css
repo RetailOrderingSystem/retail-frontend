@@ -5,7 +5,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #f5f5f5;
+  background: #FAFBFC;
   padding: 24px;
   font-family: 'Segoe UI', system-ui, sans-serif;
 }
@@ -15,12 +15,35 @@
   border-radius: 16px;
   padding: 40px;
   width: 100%;
-  max-width: 460px;
+  max-width: 600px;
   box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+  border: 1px solid #E8EAED;
 }
 
-.profile-card.center { text-align: center; color: #888; }
-.profile-card.center a { color: #ff4d4f; font-weight: 600; text-decoration: none; }
+.profile-card.center { 
+  text-align: center; 
+  color: #888; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+}
+
+.no-user-message {
+  font-size: 16px;
+  color: #64748b;
+}
+
+.login-link {
+  color: #FF9500;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.login-link:hover {
+  text-decoration: underline;
+}
 
 .avatar-row {
   display: flex;
@@ -30,90 +53,174 @@
 }
 
 .avatar {
-  width: 68px; height: 68px;
-  background: #ff4d4f;
+  width: 80px;
+  height: 80px;
+  background: linear-gradient(135deg, #FF9500, #FFB84D);
   color: #fff;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 28px;
+  font-size: 32px;
   font-weight: 700;
   flex-shrink: 0;
+  box-shadow: 0 4px 12px rgba(255, 149, 0, 0.2);
 }
 
 .name-block h1 {
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 700;
-  color: #111;
-  margin: 0 0 6px;
+  color: #2C3E50;
+  margin: 0 0 8px;
 }
 
 .role-badge {
   display: inline-block;
-  background: #fff1f0;
-  color: #ff4d4f;
-  border: 1px solid #ffa39e;
+  background: #FFF5E6;
+  color: #FF9500;
+  border: 1px solid #FFB84D;
   border-radius: 20px;
   font-size: 12px;
   font-weight: 600;
-  padding: 2px 12px;
+  padding: 4px 14px;
   text-transform: capitalize;
 }
 
 .divider {
   height: 1px;
-  background: #f0f0f0;
+  background: #E8EAED;
   margin: 24px 0;
 }
 
-.info-grid {
+/* Sections */
+.section {
+  margin-bottom: 24px;
+}
+
+.section-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: #FF9500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0 0 16px;
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 16px;
 }
 
 .info-item {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 4px;
+  padding: 12px;
+  background: #F8F9FA;
+  border-radius: 8px;
+  border-left: 3px solid #FF9500;
+}
+
+.info-item.full-width {
+  grid-column: 1 / -1;
 }
 
 .info-label {
-  font-size: 12px;
-  font-weight: 600;
-  color: #aaa;
+  font-size: 11px;
+  font-weight: 700;
+  color: #64748b;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
 
 .info-value {
   font-size: 15px;
-  color: #222;
-  font-weight: 500;
+  color: #2C3E50;
+  font-weight: 600;
+  word-break: break-word;
 }
 
 .btn-logout {
   width: 100%;
-  padding: 13px;
-  background: #fff;
-  color: #ff4d4f;
-  border: 2px solid #ff4d4f;
+  padding: 14px;
+  background: #FF9500;
+  color: #fff;
+  border: none;
   border-radius: 8px;
   font-size: 15px;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
-  transition: background 0.2s, color 0.2s, transform 0.1s;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
 }
 
 .btn-logout:hover {
-  background: #ff4d4f;
-  color: #fff;
+  background: #E68500;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255, 149, 0, 0.2);
 }
 
-.btn-logout:active { transform: scale(0.98); }
+.btn-logout:active { 
+  transform: translateY(0);
+}
 
-@media (max-width: 480px) {
-  .profile-card { padding: 28px 20px; }
+@media (max-width: 768px) {
+  .profile-card {
+    padding: 28px 20px;
+    max-width: 100%;
+  }
   .avatar-row { gap: 14px; }
+  .avatar {
+    width: 70px;
+    height: 70px;
+    font-size: 28px;
+  }
+  .name-block h1 {
+    font-size: 20px;
+  }
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Loading and Error States */
+.loading-spinner {
+  font-size: 48px;
+  animation: spin 1s linear infinite;
+  margin-bottom: 16px;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.error-message {
+  color: #dc2626;
+  font-size: 16px;
+  margin-bottom: 16px;
+}
+
+.btn-retry {
+  background: #FF9500;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-retry:hover {
+  background: #E68500;
+  transform: translateY(-1px);
 }

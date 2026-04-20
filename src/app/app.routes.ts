@@ -6,8 +6,14 @@ import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'auth/login',
+    redirectTo: 'home',
     pathMatch: 'full'
+  },
+  // Home Route (Landing Page)
+  {
+    path: 'home',
+    loadComponent: () =>
+      import('./features/home/home.component').then(m => m.HomeComponent)
   },
   // Auth Layout Routes
   {
