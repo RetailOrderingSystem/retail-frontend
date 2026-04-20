@@ -28,10 +28,20 @@ export interface AuthResponse {
   accessToken: string;
   refreshToken: string;
   user?: {
+    userId: number;
     fullName: string;
     email: string;
-    role: string;
-    lastLogin: string;
+    phone?: string;
+    role?: string;
+    roleName?: string;
+    isEmailVerified: boolean;
+    isActive: boolean;
+    createdAt: string;
+    updatedAt?: string;
+    addressLine?: string;
+    city?: string;
+    state?: string;
+    pincode?: string;
   };
 }
 
@@ -41,7 +51,20 @@ export class AuthService {
   private currentUserSubject = new BehaviorSubject<any>(this.getUser());
   public currentUser$ = this.currentUserSubject.asObservable();
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) {
+    // Initialize auth state on service creation
+    this.initializeAuthState();
+  }
+
+  private initializeAuthState(): void {
+    const token = localStorage.getItem('accessToken');
+    const user = this.getUser();
+    if (token && user) {
+      this.currentUserSubject.next(user);
+      // Reschedule logout timer if token exists
+      this.scheduleAutoLogout(60 * 60 * 1000);
+    }
+  }
 
   register(data: RegisterPayload): Observable<any> {
     return this.http.post(`${BASE_URL}/auth/register`, data);
@@ -56,14 +79,24 @@ export class AuthService {
   }
 
   storeTokens(accessToken: string, refreshToken: string): void {
+    if (!accessToken) {
+      console.error('No access token provided to storeTokens');
+      return;
+    }
     localStorage.setItem('accessToken', accessToken);
     localStorage.setItem('refreshToken', refreshToken);
+    console.log('Tokens stored successfully');
     this.scheduleAutoLogout(60 * 60 * 1000);
   }
 
   storeUser(user: any): void {
+    if (!user) {
+      console.error('No user provided to storeUser');
+      return;
+    }
     localStorage.setItem('user', JSON.stringify(user));
     this.currentUserSubject.next(user);
+    console.log('User stored successfully', user);
   }
 
   getUser(): any {
@@ -77,23 +110,33 @@ export class AuthService {
 
   isAdmin(): boolean {
     const user = this.getUser();
-    return user?.role === 'Admin';
+    // Check both 'role' and 'roleName' fields for compatibility
+    const userRole = user?.role || user?.roleName;
+    return userRole === 'Admin' || userRole === 'ADMIN';
   }
 
   logout(): void {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
     localStorage.removeItem('user');
+    localStorage.removeItem('pendingEmail');
     this.currentUserSubject.next(null);
     if (this.logoutTimer) clearTimeout(this.logoutTimer);
+    console.log('User logged out');
   }
 
   private scheduleAutoLogout(ms: number): void {
     if (this.logoutTimer) clearTimeout(this.logoutTimer);
-    this.logoutTimer = setTimeout(() => this.logout(), ms);
+    this.logoutTimer = setTimeout(() => {
+      console.log('Auto logout triggered');
+      this.logout();
+    }, ms);
   }
 
   isLoggedIn(): boolean {
-    return !!this.getAccessToken();
+    const token = this.getAccessToken();
+    const isLoggedIn = !!token;
+    console.log('isLoggedIn check:', isLoggedIn, 'token:', token);
+    return isLoggedIn;
   }
 }

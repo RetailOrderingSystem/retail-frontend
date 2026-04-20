@@ -1,0 +1,72 @@
+<app-navbar></app-navbar>
+
+<div class="home-container">
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-icon">🍕</div>
+      <h1 class="hero-title">RetailFood</h1>
+      <p class="hero-tagline">Fresh. Delicious. Delivered to Your Door 🚀</p>
+      <p class="hero-subtitle">Your favorite meals, delivered in minutes. No hassle, just happiness!</p>
+      
+      <div class="hero-actions">
+        <button class="btn-primary" (click)="navigateToRegister()">Get Started</button>
+        <button class="btn-secondary" (click)="navigateToLogin()">Already a Member?</button>
+      </div>
+    </div>
+    
+    <div class="hero-image">
+      <div class="floating-card card-1">🍔</div>
+      <div class="floating-card card-2">🍕</div>
+      <div class="floating-card card-3">🍟</div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section class="features">
+    <h2>Why Choose RetailFood?</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3>Lightning Fast</h3>
+        <p>Order in seconds, enjoy in minutes</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🎯</div>
+        <h3>Fresh & Quality</h3>
+        <p>Only the finest ingredients used</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💰</div>
+        <h3>Best Prices</h3>
+        <p>Great taste without burning holes</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🚗</div>
+        <h3>Free Delivery</h3>
+        <p>On orders above ₹199</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Menu Preview Section -->
+  <section class="menu-preview">
+    <h2>What's Cooking? 👨‍🍳</h2>
+    <div class="menu-categories">
+      <div class="category-chip">🍔 Burgers</div>
+      <div class="category-chip">🍕 Pizza</div>
+      <div class="category-chip">🍟 Fries</div>
+      <div class="category-chip">🥤 Drinks</div>
+    </div>
+    <p class="menu-text">Browse our extensive menu with 50+ delicious options to satisfy every craving!</p>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta">
+    <h2>Ready to Order? 🤤</h2>
+    <p>Sign up now and get ₹100 off on your first order!</p>
+    <button class="btn-cta" (click)="navigateToRegister()">Join RetailFood</button>
+  </section>
+</div>
+
+<app-footer></app-footer>

@@ -80,12 +80,37 @@ export class OtpComponent implements OnInit, OnDestroy {
 
     this.authService.verifyOtp({ email: this.email, otp: this.otp.value }).subscribe({
       next: (res) => {
-        this.authService.storeTokens(res.accessToken, res.refreshToken);
-        if (res.user) this.authService.storeUser(res.user);
+        console.log('OTP verified successfully', res);
+        
+        // Store tokens
+        if (res.accessToken && res.refreshToken) {
+          this.authService.storeTokens(res.accessToken, res.refreshToken);
+        } else {
+          console.error('No tokens received in response', res);
+          this.error = 'Authentication failed. Please try again.';
+          this.loading = false;
+          return;
+        }
+        
+        // Store user
+        if (res.user) {
+          this.authService.storeUser(res.user);
+        }
+        
         localStorage.removeItem('pendingEmail');
-        this.router.navigate(['/products']);
+        
+        // Verify login before navigating
+        setTimeout(() => {
+          if (this.authService.isLoggedIn()) {
+            this.router.navigate(['/products']);
+          } else {
+            this.error = 'Failed to establish session. Please try again.';
+            this.loading = false;
+          }
+        }, 500);
       },
       error: (err) => {
+        console.error('OTP verification error:', err);
         this.error = err?.error?.message || 'Invalid OTP. Please try again.';
         this.loading = false;
       }

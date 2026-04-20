@@ -13,20 +13,21 @@ html, body {
   font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
   font-size: 16px;
   color: #1a1a2e;
-  background-color: #f5f6fa;
+  background-color: #FAFBFC;
   -webkit-font-smoothing: antialiased;
 }
 
 :root {
-  --brand: #1F497D;
-  --brand-alt: #ff4d4f;
-  --brand-soft: #eef3fb;
+  --brand: #FF9500;
+  --brand-dark: #2C3E50;
+  --brand-light: #F5F7FA;
+  --brand-soft: #FFF5E6;
   --surface: #ffffff;
-  --surface-strong: #f8fafc;
+  --surface-strong: #F8FAFC;
   --text-primary: #1a1a2e;
   --text-muted: #64748b;
-  --border: #e5e7eb;
-  --shadow: 0 16px 48px rgba(31, 73, 125, 0.12);
+  --border: #E8EAED;
+  --shadow: 0 16px 48px rgba(255, 149, 0, 0.12);
   --radius: 16px;
 }
 
@@ -34,8 +35,8 @@ body::before {
   content: '';
   position: fixed;
   inset: 0;
-  background: radial-gradient(circle at top center, rgba(255, 77, 79, 0.14), transparent 30%),
-              radial-gradient(circle at bottom right, rgba(31, 73, 125, 0.18), transparent 25%);
+  background: radial-gradient(circle at top center, rgba(255, 149, 0, 0.08), transparent 40%),
+              radial-gradient(circle at bottom right, rgba(44, 62, 80, 0.06), transparent 35%);
   pointer-events: none;
 }
 
@@ -65,14 +66,14 @@ a:hover { text-decoration: underline; }
   transition: all 0.2s;
   white-space: nowrap;
 }
-.btn-primary { background: #1F497D; color: white; }
-.btn-primary:hover { background: #163a6b; }
-.btn-secondary { background: #f0a500; color: #1a1a2e; }
-.btn-secondary:hover { background: #ffc107; }
-.btn-danger { background: #dc3545; color: white; }
-.btn-danger:hover { background: #bb2d3b; }
-.btn-outline { background: transparent; border: 2px solid #1F497D; color: #1F497D; }
-.btn-outline:hover { background: #1F497D; color: white; }
+.btn-primary { background: #FF9500; color: white; font-weight: 600; }
+.btn-primary:hover { background: #E68500; }
+.btn-secondary { background: #2C3E50; color: white; }
+.btn-secondary:hover { background: #1A252F; }
+.btn-danger { background: #E74C3C; color: white; }
+.btn-danger:hover { background: #C0392B; }
+.btn-outline { background: transparent; border: 2px solid #FF9500; color: #FF9500; }
+.btn-outline:hover { background: #FF9500; color: white; }
 .btn:disabled { opacity: 0.6; cursor: not-allowed; }
 
 /* Cards */

@@ -1,28 +1,30 @@
 
 <nav class="navbar">
   <div class="navbar-brand">
-    <a routerLink="/products">
-      <span class="brand-icon">&#x1F374;</span>
+    <a routerLink="/" (click)="closeMenu()">
+      <span class="brand-icon">🍕</span>
       <span class="brand-name">RetailFood</span>
     </a>
+    <span class="brand-tagline" *ngIf="!isLoggedIn">Fresh. Delicious. Fast.</span>
+    <span class="brand-tagline" *ngIf="isLoggedIn">Our Menu 🍽️</span>
   </div>
 
   <div class="navbar-links" [class.open]="isMenuOpen">
-    <a routerLink="/products" routerLinkActive="active">Menu</a>
-    <a routerLink="/cart" routerLinkActive="active" *ngIf="authService.isLoggedIn()">Cart</a>
-    <a routerLink="/orders" routerLinkActive="active" *ngIf="authService.isLoggedIn()">Orders</a>
-    <a routerLink="/profile" routerLinkActive="active" *ngIf="authService.isLoggedIn()">Profile</a>
-    <a routerLink="/admin" routerLinkActive="active" *ngIf="authService.isAdmin()">Admin</a>
+    <a routerLink="/products" routerLinkActive="active" (click)="closeMenu()">Menu</a>
+    <a routerLink="/cart" routerLinkActive="active" *ngIf="isLoggedIn" (click)="closeMenu()">Cart</a>
+    <a routerLink="/orders" routerLinkActive="active" *ngIf="isLoggedIn" (click)="closeMenu()">Orders</a>
+    <a routerLink="/profile" routerLinkActive="active" *ngIf="isLoggedIn" (click)="closeMenu()">Profile</a>
+    <a routerLink="/admin" routerLinkActive="active" *ngIf="isLoggedIn && authService.isAdmin()" (click)="closeMenu()">Admin</a>
   </div>
 
   <div class="navbar-actions">
-    <ng-container *ngIf="authService.isLoggedIn(); else guestLinks">
+    <ng-container *ngIf="isLoggedIn; else guestLinks">
       <span class="user-name">{{ currentUser?.fullName }}</span>
       <button class="btn-logout" (click)="logout()">Logout</button>
     </ng-container>
     <ng-template #guestLinks>
-      <a routerLink="/auth/login" class="btn-login">Login</a>
-      <a routerLink="/auth/register" class="btn-register">Register</a>
+      <a routerLink="/auth/login" class="btn-login" (click)="closeMenu()">Login</a>
+      <a routerLink="/auth/register" class="btn-register" (click)="closeMenu()">Register</a>
     </ng-template>
   </div>
 

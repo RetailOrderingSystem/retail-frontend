@@ -47,7 +47,7 @@
         <!-- CTA -->
         <div class="action-row">
           <button class="cta-btn" [disabled]="!product.isAvailable || loadingCart" (click)="addToCart()">
-            <span *ngIf="!loadingCart">🛒 Add to Cart</span>
+            <span  *ngIf="!loadingCart" >🛒 Add to Cart</span>
             <span *ngIf="loadingCart">Adding...</span>
           </button>
           <button class="btn-buy" [disabled]="!product.isAvailable || loadingCart" (click)="buyNow()">
