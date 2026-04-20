@@ -36,18 +36,18 @@ export class OrderService {
   constructor(private api: ApiService) {}
 
   placeOrder(dto: CheckoutDto): Observable<ApiResponse<Order>> {
-    return this.api.post<Order>("order/checkout", dto);
+    return this.api.post<Order>("api/order/checkout", dto);
   }
 
   getOrder(orderId: number): Observable<ApiResponse<Order>> {
-    return this.api.get<Order>(`order/${orderId}`);
+    return this.api.get<Order>(`api/order/${orderId}`);
   }
 
   getOrderHistory(): Observable<ApiResponse<Order[]>> {
-    return this.api.get<Order[]>("order/history");
+    return this.api.get<Order[]>("api/order/history");
   }
 
   reorder(orderId: number): Observable<ApiResponse<Order>> {
-    return this.api.post<Order>(`order/${orderId}/reorder`, {});
+    return this.api.post<Order>(`api/order/${orderId}/reorder`, {});
   }
 }

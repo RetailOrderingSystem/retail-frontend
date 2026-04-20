@@ -44,24 +44,30 @@ export class RegisterComponent {
 
   f(name: string) { return this.form.get(name)!; }
 
-  onSubmit(): void {
-    if (this.form.invalid) { this.form.markAllAsTouched(); return; }
-    this.loading = true;
-    this.error = '';
-    this.successMsg = '';
+ onSubmit(): void {
+  if (this.form.invalid) { this.form.markAllAsTouched(); return; }
+  this.loading = true;
+  this.error = '';
+  this.successMsg = '';
 
-    const { confirmPassword, ...payload } = this.form.value;
+  const { confirmPassword, addressLine, pincode, ...rest } = this.form.value;
 
-    this.authService.register(payload).subscribe({
-      next: () => {
-        this.successMsg = 'Account created! Please verify your email before logging in.';
-        this.loading = false;
-        setTimeout(() => this.router.navigate(['/auth/login']), 2500);
-      },
-      error: (err) => {
-        this.error = err?.error?.message || 'Registration failed. Try again.';
-        this.loading = false;
-      }
-    });
-  }
+  const payload = {
+    ...rest,
+    street: addressLine,
+    zipCode: pincode
+  };
+
+  this.authService.register(payload).subscribe({
+    next: () => {
+      this.successMsg = 'Account created! Please verify your email before logging in.';
+      this.loading = false;
+      setTimeout(() => this.router.navigate(['/auth/login']), 2500);
+    },
+    error: (err) => {
+      this.error = err?.error?.message || 'Registration failed. Try again.';
+      this.loading = false;
+    }
+  });
+}
 }
